@@ -1,14 +1,14 @@
+# Photos uploadées (NE PAS VERSIONNER)
+backend-springboot/profile-photos/
+
 # Angular
 node_modules/
 dist/
 
-# Spring Boot
-target/
-*.log
-
-# Environment
-.env
-
 # IDE
 .idea/
-.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
