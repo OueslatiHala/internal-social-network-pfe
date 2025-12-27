@@ -1,0 +1,36 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+
+server:
+  port: 8090
+spring:
+  profiles:
+    active: local
+  application:
+    name: post
+  kafka:
+    bootstrap-servers: localhost:9092
+  config:
+      import: optional:configserver:http://localhost:8888
+      posts-url: http://localhost:8090/api/v1/posts
+      likes-url: http://localhost:8090/api/v1/likes
+      comments-url: http://localhost:8090/api/v1/comments
+      shares-url: http://localhost:8090/api/v1/shares
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/posts
+    username: postgres
+    password: hala123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    springdoc:
+      swagger-ui:
+        path: /swagger-ui.html

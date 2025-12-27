@@ -1,0 +1,55 @@
+server:
+  port: 8222
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: authentication
+          uri: http://authentication:8070
+          predicates:
+              - Path=/authentication/**
+          filters:
+              - StripPrefix=1
+        - id: post
+          uri: http://post:8090
+          predicates:
+              - Path=/post/**
+          filters:
+              - StripPrefix=1
+        - id: messaging
+          uri: http://messaging:8050
+          predicates:
+              - Path=/messaging/**
+          filters:
+              - StripPrefix=1
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin X-Frame-Options
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+  config:
+    import: optional:configserver:http://localhost:8888
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

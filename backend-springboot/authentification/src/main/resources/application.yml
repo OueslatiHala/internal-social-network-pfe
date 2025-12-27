@@ -1,0 +1,65 @@
+server:
+  port: 8070
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+
+spring:
+  application:
+    name: authentication
+  config:
+    import: optional:configserver:http://localhost:8888
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/authentification
+    username: postgres
+    password: hala123  # Consider using environment variables for sensitive data
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: oueslati.hala4@gmail.com
+    password:  spaq djds wwhb vwdn  # Consider using environment variables for sensitive data
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+  web:
+    resources:
+      static-locations: file:./profile-photos/
+
+profile:
+  photos:
+    dir: profile-photos
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 864000000  # 10 days
+      refresh-token:
+        expiration: 6048000000  # 70 days
+    mailing:
+      frontend:
+        activation-url: http://localhost:4200/activate-account
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
